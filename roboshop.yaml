@@ -6,6 +6,7 @@
     ami_id: ami-0220d79f3f480ecf5
     domain_name: aravind381.online
     env: dev
+    action: create
     instances:
     - mongodb
     - catalogue
@@ -23,6 +24,7 @@
         Name: "{{ item}}-{{ env }}"
     loop: "{{ instances }}"  
     register: ec2_output
+    when: action == "create"
 
   - name: print the output
     ansible.builtin.debug:
@@ -39,6 +41,7 @@
       value: "{{ item.instances[0].private_ip_address }}"
       wait: true    
     loop: "{{ ec2_output.results }}"  
+    when: action == "create"
 
 
   - name: create r53 records
@@ -52,4 +55,12 @@
       wait: true    
     loop: "{{ ec2_output.results }}"
     when: item.item == "frontend"
+    - item.item == "frontend"
+    - action == "create"
+
+  - name: delete ec2 instance
+    amazon.aws.ec2_instance:
+      state: absent
+      name: "{{ item }}-{{ env }}"
+    loop: "{{ instance }}"    
 
