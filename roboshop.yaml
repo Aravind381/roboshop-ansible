@@ -1,3 +1,4 @@
+# ansible-playbook -i localhost, -e 'instances=["mongodb", "catalouge", "redis", "user", "cart","shipping", "rabbitmq", "mysql", "payment", "frontrnd"]' roboshop.yaml
 - name: create ec2 and r53 records
   hosts: all
   connection: local
@@ -11,6 +12,7 @@
     - mongodb
     - catalogue
   tasks:
+  # create
   - name: create ec2 instances
     amazon.aws.ec2_instance:
       instance_type: "t3.micro"
@@ -41,7 +43,7 @@
       ttl: 1
       value: "{{ item.instances[0].private_ip_address }}"
       wait: true    
-    loop: "{{ ec2_output.results }}"  
+    loop: "{{ ec2_output.results }}"  #list
     when: action == "create"
 
 
@@ -59,6 +61,7 @@
     - item.item == "frontend"
     - action == "create"
 
+#destroy
   - name: delete r53 records
     amazon.aws.route53:
       state: absent
