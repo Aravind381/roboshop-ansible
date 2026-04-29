@@ -1,6 +1,6 @@
 - name: configure redis server
-  become: yes
   hosts: redis
+  become: yes
   tasks:
   - name: enable redis 7
     ansible.builtin.command: dnf module enbale redis:7 -yaml
