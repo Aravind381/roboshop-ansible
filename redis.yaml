@@ -1,4 +1,4 @@
-- name: confihure redis server
+- name: configure redis server
   become: yes
   hosts: redis
   tasks:
