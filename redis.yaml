@@ -3,12 +3,12 @@
   become: yes
   tasks:
   - name: enable redis 7
-    ansible.builtin.command: dnf module enbale redis:7 -yaml
+    ansible.builtin.command: dnf module enable redis:7 -y
 
   - name: install redis
     ansible.builtin.dnf:
       name: redis
-      status: present  
+      state: present  
 
   - name: allow remote connections
     ansible.builtin.replace:
