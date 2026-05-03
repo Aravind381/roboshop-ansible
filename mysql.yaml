@@ -2,7 +2,7 @@
   hosts: mysql
   become: yes
   tasks:
-  - name: install MySQL server
+  - name: install MYSQL server
     ansible.builtin.dnf:
       name: mysql-server
       state: present
